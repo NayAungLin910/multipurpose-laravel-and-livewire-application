@@ -58,12 +58,17 @@
     <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
+    <!-- ckeeditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
 
     <script type="module">
+
+        // event listener to show form
         window.addEventListener('show-form', event => {
             $('#form').modal('show');
         })
 
+        // event listender to hide form and show taost
         window.addEventListener('hide-form', event => {
             $('#form').modal('hide');
 
@@ -84,8 +89,27 @@
             }).showToast();
         });
 
-
+        // show success toast
+        window.addEventListener('toast-success', event => {
+            // show toast
+            Toastify({
+                text: event.detail.success, // show the message passed from the event from component
+                duration: 3000,
+                destination: "",
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function() {} // Callback after click
+            }).showToast();
+        })
     </script>
+
+    @stack('js')
 
     @livewireScripts
 </body>

@@ -5,9 +5,9 @@ namespace App\Http\Livewire\Admin\Users;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Livewire\Component;
+use App\Http\Livewire\Admin\AdminComponent;
 
-class ListUsers extends Component
+class ListUsers extends AdminComponent
 {
     public $state = [];
 
@@ -37,7 +37,7 @@ class ListUsers extends Component
         User::create($validatedData);
 
         $this->dispatchBrowserEvent('hide-form', ['success' => 'The user addded successfully!']);
-    } 
+    }
 
     public function edit(User $user)
     {

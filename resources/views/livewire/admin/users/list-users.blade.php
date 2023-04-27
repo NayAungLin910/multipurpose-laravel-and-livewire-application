@@ -34,6 +34,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
+                                        <th scope="col">Registered Date</th>
                                         <th scope="col">Options</th>
                                     </tr>
                                 </thead>
@@ -42,7 +43,8 @@
                                         <tr>
                                             <th scope="row">{{ $loop->iteration }}</th>
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->email }}</td> 
+                                            <td>{{ $user->created_at->toFormattedDate() }}</td>
                                             <td>
                                                 <a href="" wire:click.prevent="edit({{ $user }})">
                                                     <i class="fa fa-edit mr-2"></i>
@@ -56,6 +58,9 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="card-footer d-flex justify-content-end">
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>
