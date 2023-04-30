@@ -14,6 +14,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}" />
 
+    @stack('styles')
+
     @livewireStyles
 
     @vite('resources/js/app.js')

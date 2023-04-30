@@ -25,6 +25,7 @@
                     <div class="d-flex justify-content-end mb-2">
                         <button wire:click.prevent='addNew' class="btn btn-primary"><i
                                 class="fa fa-plus-circle mr-1"></i> Add New User</button>
+                        <x-search-input wire:model.debounce.500ms="searchTerm" />
                     </div>
                     <div class="card">
                         <div class="card-body">
@@ -38,12 +39,17 @@
                                         <th scope="col">Options</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
+                                <tbody wire:loading.class='text-muted'>
+                                    @forelse ($users as $user)
                                         <tr>
                                             <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td> 
+                                            <td>
+                                                <img loading="lazy" style="max-width: 100px; border-radius: 10px;"
+                                                    src="{{ $user->avatar_url }}" class="img mr-2"
+                                                    alt="{{ $user->name }}'s profile image">
+                                                {{ $user->name }}
+                                            </td>
+                                            <td>{{ $user->email }}</td>
                                             <td>{{ $user->created_at->toFormattedDate() }}</td>
                                             <td>
                                                 <a href="" wire:click.prevent="edit({{ $user }})">
@@ -54,8 +60,15 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    @endforeach
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <img height="100" src="{{ url('/images/cat_loading.svg') }}"
+                                                    alt="cat svg image" />
+                                                <p>No results found!</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -145,6 +158,25 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="profilePhoto" class="form-label">
+                                @if ($photo)
+                                    <img loading="lazy" src="{{ $photo->temporaryUrl() }}" height="70"
+                                        alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
+                                    <p>
+                                        {{ $photo->getClientOriginalName() }}
+                                    </p>
+                                @elseif ($editPhoto)
+                                    <img loading="lazy" src="{{ $editPhoto }}" height="70"
+                                        alt="{{ $editPhoto }} - Temporary Image">
+                                    <p>
+                                    @else
+                                        <label for="profilePhoto" class="form-label">Choose Image</label>
+                                @endif
+                            </label>
+                            <input wire:model="photo" class="form-control" type="file" id="profilePhoto">
                         </div>
                     </div>
                     <div class="modal-footer">

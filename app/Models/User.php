@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'avatar',
         'name',
         'email',
         'password',
@@ -44,4 +45,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return url("/storage/avatars/$this->avatar");
+        }
+
+        return url("no_image.jpg");
+    }
 }

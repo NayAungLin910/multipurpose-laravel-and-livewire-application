@@ -6,14 +6,23 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Livewire\Admin\AdminComponent;
+use Livewire\WithFileUploads;
 
 class ListUsers extends AdminComponent
 {
+    use WithFileUploads;
+
     public $state = [];
 
     public $user;
 
     public $showEditModal = false;
+
+    public $searchTerm;
+
+    public $photo;
+
+    public $editPhoto;
 
     public function addNew()
     {
@@ -34,6 +43,10 @@ class ListUsers extends AdminComponent
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
+        if ($this->photo) {
+            $validatedData['avatar'] = $this->photo->store('/', 'avatars');
+        }
+
         User::create($validatedData);
 
         $this->dispatchBrowserEvent('hide-form', ['success' => 'The user addded successfully!']);
@@ -46,6 +59,8 @@ class ListUsers extends AdminComponent
         $this->user = $user;
 
         $this->state = $user->toArray();
+
+        $this->editPhoto = url("/storage/avatars/$user->avatar");
 
         $this->dispatchBrowserEvent('show-form');
     }
@@ -62,6 +77,10 @@ class ListUsers extends AdminComponent
             $validatedData['password'] = Hash::make($validatedData['password']);
         }
 
+        if ($this->photo) {
+            $validatedData['avatar'] = $this->photo->store('/', 'avatars');
+        }
+
         $this->user->update($validatedData);
 
         $this->dispatchBrowserEvent('hide-form', ['success' => 'The user updated successfully!']);
@@ -69,7 +88,12 @@ class ListUsers extends AdminComponent
 
     public function render()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::query()
+            ->where('name', 'like', "%$this->searchTerm%")
+            ->orWhere('email', 'like', "%$this->searchTerm%")
+            ->latest()
+            ->paginate(10);
+
         return view('livewire.admin.users.list-users', [
             "users" => $users
         ]);

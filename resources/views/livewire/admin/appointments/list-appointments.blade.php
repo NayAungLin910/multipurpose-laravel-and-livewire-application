@@ -1,3 +1,14 @@
+@push('styles')
+    <style>
+        .normal-button {
+            background-color: transparent;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+@endpush
+
 <div>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -55,9 +66,10 @@
                                                 <a href="{{ route('admin.appointments.edit', $appointment) }}">
                                                     <i class="fa fa-edit mr-2"></i>
                                                 </a>
-                                                <a href="">
+                                                <button class="normal-button"
+                                                    wire:click.prevent='confirmAppointmentRemoval({{ $appointment->id }}, "{{ $appointment->client->name }}")'>
                                                     <i class="fa fa-trash text-danger"></i>
-                                                </a>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -74,6 +86,6 @@
     </div>
     <!-- /.content -->
 
-
 </div>
+<x-confirmation-alert />
 </div>
