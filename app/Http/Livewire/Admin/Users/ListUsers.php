@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Livewire\Admin\AdminComponent;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class ListUsers extends AdminComponent
@@ -54,6 +55,8 @@ class ListUsers extends AdminComponent
 
     public function edit(User $user)
     {
+        $this->reset();
+
         $this->showEditModal = true;
 
         $this->user = $user;
@@ -61,6 +64,10 @@ class ListUsers extends AdminComponent
         $this->state = $user->toArray();
 
         $this->editPhoto = url("/storage/avatars/$user->avatar");
+
+        if (!$user->avatar) {
+            $this->editPhoto = url('no_image.jpg');
+        }
 
         $this->dispatchBrowserEvent('show-form');
     }
@@ -78,6 +85,10 @@ class ListUsers extends AdminComponent
         }
 
         if ($this->photo) {
+            if ($this->user->avatar && Storage::disk('avatars')->has($this->user->avatar)) {
+                Storage::disk('avatars')->delete($this->user->avatar);
+            }
+
             $validatedData['avatar'] = $this->photo->store('/', 'avatars');
         }
 

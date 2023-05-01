@@ -46,6 +46,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'avatar_url',
+    ];
+
     public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) {

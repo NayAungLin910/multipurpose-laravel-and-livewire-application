@@ -163,13 +163,13 @@
                         <div class="mb-3">
                             <label for="profilePhoto" class="form-label">
                                 @if ($photo)
-                                    <img loading="lazy" src="{{ $photo->temporaryUrl() }}" height="70"
+                                    <img class="d-block mb-2" loading="lazy" src="{{ $photo->temporaryUrl() }}" height="70"
                                         alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
                                     <p>
                                         {{ $photo->getClientOriginalName() }}
                                     </p>
                                 @elseif ($editPhoto)
-                                    <img loading="lazy" src="{{ $editPhoto }}" height="70"
+                                    <img class="d-block mb-2" loading="lazy" src="{{ $state['avatar_url'] }}" height="70"
                                         alt="{{ $editPhoto }} - Temporary Image">
                                     <p>
                                     @else
