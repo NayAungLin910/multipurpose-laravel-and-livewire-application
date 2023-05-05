@@ -25,5 +25,21 @@
                 'success'
             )
         })
+
+        window.addEventListener('show-success', event => {
+            Swal.fire(
+                'Success!',
+                event.detail.message,
+                'success'
+            )
+        })
+
+        window.addEventListener('show-error', event => {
+            Swal.fire(
+                'Error!',
+                event.detail.message,
+                'error'
+            )
+        })
     </script>
 @endpush

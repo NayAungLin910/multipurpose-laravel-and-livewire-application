@@ -159,24 +159,37 @@
                                 </div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="profilePhoto" class="form-label">
                                 @if ($photo)
-                                    <img class="d-block mb-2" loading="lazy" src="{{ $photo->temporaryUrl() }}" height="70"
-                                        alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
+                                    <img class="d-block mb-2" loading="lazy" src="{{ $photo->temporaryUrl() }}"
+                                        style="max-height: 70px" alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
                                     <p>
                                         {{ $photo->getClientOriginalName() }}
                                     </p>
                                 @elseif ($editPhoto)
-                                    <img class="d-block mb-2" loading="lazy" src="{{ $state['avatar_url'] }}" height="70"
-                                        alt="{{ $editPhoto }} - Temporary Image">
+                                    <img class="d-block mb-2" loading="lazy" src="{{ $state['avatar_url'] }}"
+                                        style="max-height: 70px" alt="{{ $editPhoto }} - Temporary Image">
                                     <p>
                                     @else
                                         <label for="profilePhoto" class="form-label">Choose Image</label>
                                 @endif
                             </label>
-                            <input wire:model="photo" class="form-control" type="file" id="profilePhoto">
+                            <div x-data="{ isUploading: false, progress: 5 }" x-on:livewire-upload-start="isUploading = true"
+                                x-on:livewire-upload-finish="isUploading = false; progress = 5"
+                                x-on:livewire-upload-error="isUploading = false"
+                                x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                <input wire:model="photo" class="form-control" type="file" id="profilePhoto">
+
+                                <!-- progress bar -->
+                                <div x-show.transition="isUploading" class="progress progress-sm mt-2 rounded">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                        x-bind:style="`width: ${progress}%`" x-bind:aria-valuenow="`${progress}`"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
