@@ -25,6 +25,7 @@ class CreateAppointmentForm extends Component
         $validatedState = Validator::make($this->state, [
             'client_id' => "required|exists:clients,id",
             'members' => 'required',
+            'color' => 'required',
             'date' => "required",
             'time' => 'required',
             'note' => 'required',

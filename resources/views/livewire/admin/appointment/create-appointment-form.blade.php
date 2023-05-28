@@ -48,6 +48,28 @@
                 </div>
             </div>
 
+            <!-- Color Pick -->
+            <!-- <div class="form-group" wire:ignore.self>
+                <label>Color picker:</label>
+                <div class="@error('color') is-invalid border rounded border-danger custom-error @enderror">
+                    <input wire:model.defer="state.color" type="text" class="form-control" id="colorPicker" data-colorpicker-id="1" data-original-title="" title="">
+                </div>
+                @error('color')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div> -->
+            <div class="form-group">
+                <label>Color picker with addon:</label>
+                <div class="input-group" data-colorpicker-id="2">
+                    <input wire:model.defer="state.color" name="color" type="text" class="form-control" data-original-title="" title="">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i id="colorPickerSquare" class="fas fa-square"></i></span>
+                    </div>
+                </div>
+            </div>
+
             <!-- date -->
             <div class="form-group">
                 <label for="input-date">Date</label>
@@ -86,11 +108,20 @@
 
     @push('js')
     <script>
-        ClassicEditor.create(document.querySelector('#note'));
+        // $('#colorPicker').colorpicker();
+        $('[name="color"]').colorpicker();
+
+        $('[name="color"').on('colorpickerChange', function(event) {
+            $('#colorPickerSquare').css('color', event.color.toString());
+        })
+    </script>
+    <script>
+        // ClassicEditor.create(document.querySelector('#note'));
 
         $('form').submit(function() {
-            @this.set('state.members', $('#team-select').val());
-            @this.set('state.note', $('#note').val());
+            @this.set('state.members', $('#team-select').val())
+            @this.set('state.note', $('#note').val())
+            @this.set('state.color', $('[name="color"]').val())
         })
     </script>
     @endpush

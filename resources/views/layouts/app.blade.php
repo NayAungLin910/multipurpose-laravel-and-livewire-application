@@ -15,6 +15,9 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}" />
 
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="{{ asset('backend/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+
     <!--Alpine JS-->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -73,7 +76,9 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
     <!-- ckeeditor -->
-    <script async src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+    <!-- <script async src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script> -->
+    <!-- Bootstrap Color Picker -->
+    <script src="{{ asset('backend/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 
     <script type="module">
         // event listener to show form

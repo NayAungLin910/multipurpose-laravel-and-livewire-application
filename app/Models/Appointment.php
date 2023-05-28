@@ -16,7 +16,8 @@ class Appointment extends Model
         'status',
         'time',
         'note',
-        'members'
+        'members',
+        'color'
     ];
 
     protected $guarded = [];
