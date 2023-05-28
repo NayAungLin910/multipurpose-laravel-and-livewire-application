@@ -36,6 +36,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Registered Date</th>
+                                        <th scope="col">Role</th>
                                         <th scope="col">Options</th>
                                     </tr>
                                 </thead>
@@ -51,6 +52,14 @@
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->created_at->toFormattedDate() }}</td>
+                                            <td>
+                                                <select wire:change="changeRole({{ $user }}, $event.target.value)" class="form-select" aria-label="Default select example">
+                                                    <option value="admin"
+                                                        {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                                                    <option {{ $user->role === 'user' ? 'selected' : '' }}
+                                                        value="user">User</option>
+                                                </select>
+                                            </td>
                                             <td>
                                                 <a href="" wire:click.prevent="edit({{ $user }})">
                                                     <i class="fa fa-edit mr-2"></i>
@@ -164,7 +173,8 @@
                             <label for="profilePhoto" class="form-label">
                                 @if ($photo)
                                     <img class="d-block mb-2" loading="lazy" src="{{ $photo->temporaryUrl() }}"
-                                        style="max-height: 70px" alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
+                                        style="max-height: 70px"
+                                        alt="{{ $photo->getClientOriginalName() }} - Temporary Image">
                                     <p>
                                         {{ $photo->getClientOriginalName() }}
                                     </p>

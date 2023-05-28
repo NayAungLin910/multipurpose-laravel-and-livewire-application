@@ -25,6 +25,22 @@ class ListUsers extends AdminComponent
 
     public $editPhoto;
 
+
+    public function changeRole(User $user, $role)
+    {
+        Validator::make([
+            'role' => $role
+        ], [
+            'role' => 'required|in:admin,user',
+        ])->validate();
+
+        $user->update(['role' => $role]);
+
+        $this->dispatchBrowserEvent('toast-success', [
+            'success' => "The role has been changed to $role!"
+        ]);
+    }
+
     public function addNew()
     {
         $this->showEditModal = false;
@@ -47,6 +63,8 @@ class ListUsers extends AdminComponent
         if ($this->photo) {
             $validatedData['avatar'] = $this->photo->store('/', 'avatars');
         }
+
+        $validatedData['row'] = 'user';
 
         User::create($validatedData);
 

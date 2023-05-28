@@ -15,7 +15,8 @@ class Appointment extends Model
         'date',
         'status',
         'time',
-        'note'
+        'note',
+        'members'
     ];
 
     protected $guarded = [];
@@ -23,6 +24,7 @@ class Appointment extends Model
     // was commented out because of update appointment bug
     protected $casts = [
         'date' => 'datetime',
+        'members' => 'array'
         // 'time' => 'datetime',
     ];
 

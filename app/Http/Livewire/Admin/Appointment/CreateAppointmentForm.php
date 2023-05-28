@@ -24,6 +24,7 @@ class CreateAppointmentForm extends Component
         // validate
         $validatedState = Validator::make($this->state, [
             'client_id' => "required|exists:clients,id",
+            'members' => 'required',
             'date' => "required",
             'time' => 'required',
             'note' => 'required',
@@ -34,6 +35,8 @@ class CreateAppointmentForm extends Component
         Appointment::create($validatedState);
 
         $this->reset('state');
+
+        $this->dispatchBrowserEvent('clear-select2'); // clear the select2 value
 
         $this->dispatchBrowserEvent('clear-note'); // clear the cke editor
 
